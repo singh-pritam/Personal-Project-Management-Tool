@@ -5,10 +5,7 @@ import io.agileintelligence.ppmtool.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/project")
@@ -17,8 +14,9 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    @RequestMapping("")
+    @PostMapping("")
     public ResponseEntity<Project> createNewProject(@RequestBody Project project){
-        return new ResponseEntity<Project>(project,HttpStatus.OK);
+        projectService.createOrUpdateProject(project);
+        return new ResponseEntity<Project>(project,HttpStatus.CREATED);
     }
 }
