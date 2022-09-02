@@ -5,7 +5,14 @@ import io.agileintelligence.ppmtool.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/project")
@@ -15,8 +22,24 @@ public class ProjectController {
     private ProjectService projectService;
 
     @PostMapping("")
-    public ResponseEntity<Project> createNewProject(@RequestBody Project project){
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result){
+
+        Map<String, String> Errors = projectService.getErrors(result);
+        if(!Errors.isEmpty()){
+            return new ResponseEntity<Map<String, String>>(Errors, HttpStatus.BAD_REQUEST);
+        }
         projectService.createOrUpdateProject(project);
         return new ResponseEntity<Project>(project,HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<?> findProject(@PathVariable String projectId){
+        Project project = projectService.findProjectByIdentifier(projectId);
+        return new ResponseEntity<Project>(project, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/all")
+    public Iterator<Project> getAllProjects(){
+        return projectService.findAllProjects();
     }
 }
