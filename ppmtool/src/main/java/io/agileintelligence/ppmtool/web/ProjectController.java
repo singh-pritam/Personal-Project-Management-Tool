@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,8 +39,8 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public Iterator<Project> getAllProjects(){
-        return projectService.findAllProjects();
+    public List<Project> getAllProjects(){
+        return  projectService.findAllProjects();
     }
 
     @DeleteMapping("/{projectId}")

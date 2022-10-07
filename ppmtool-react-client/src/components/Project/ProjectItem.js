@@ -1,17 +1,24 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
+import { useDispatch } from "react-redux";
+import { deleteProject } from "../../actions/deleteProject";
 
-function ProjectItem() {
+function ProjectItem({ project }) {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteProject(project.projectIdentifier));
+  };
   return (
     <div className="container">
       <div className="card card-body bg-light mb-3">
         <div className="row">
           <div className="col-2">
-            <span className="mx-auto">REACT</span>
+            <span className="mx-auto">{project.projectName}</span>
           </div>
           <div className="col-lg-6 col-md-4 col-8">
-            <h3>Spring / React Project</h3>
-            <p>Project to create a Kanban Board with Spring Boot and React</p>
+            <h3>{project.projectName}</h3>
+            <p>{project.description}</p>
           </div>
           <div className="col-md-4 d-none d-lg-block">
             <ul className="list-group">
@@ -27,7 +34,9 @@ function ProjectItem() {
               </a>
               <a href="">
                 <li className="list-group-item delete">
-                  <i className="fa fa-minus-circle pr-1">Delete Project</i>
+                  <i className="fa fa-minus-circle pr-1" onClick={handleDelete}>
+                    Delete Project
+                  </i>
                 </li>
               </a>
             </ul>

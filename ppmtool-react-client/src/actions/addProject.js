@@ -23,9 +23,7 @@ export const addProject = (project) => {
 
 const addProjectSuccess = (project) => ({
   type: ADD_PROJECT_SUCCESS,
-  payload: {
-    ...project,
-  },
+  payload: project,
 });
 
 const addProjectStarted = () => ({

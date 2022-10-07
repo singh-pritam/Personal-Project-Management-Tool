@@ -17,6 +17,7 @@ function AddProject() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     store.dispatch(addProject(fields));
   };
 
@@ -39,6 +40,7 @@ function AddProject() {
                   value={fields.projectName}
                   onChange={updateFields}
                 />
+                {/* {emptyProjectName && <span>required</span>} */}
               </div>
               <div className="form-group">
                 <input

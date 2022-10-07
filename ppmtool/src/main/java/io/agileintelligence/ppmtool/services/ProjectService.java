@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -44,8 +45,8 @@ public class ProjectService {
         return project;
     }
 
-    public Iterator<Project> findAllProjects(){
-        return (Iterator<Project>) projectRepository.findAll();
+    public List<Project> findAllProjects(){
+        return (List<Project>) projectRepository.findAll();
     }
 
     public void deleteProjectByIdentifier(String projectId){
