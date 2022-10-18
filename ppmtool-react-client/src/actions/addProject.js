@@ -5,18 +5,17 @@ import {
   ADD_PROJECT_SUCCESS,
 } from "./types";
 
-export const addProject = (project) => {
+export const addProject = (project, navigate) => {
   return (dispatch, getState) => {
     dispatch(addProjectStarted());
 
     axios
       .post(`http://localhost:8080/api/project`, project)
       .then((res) => {
-        console.log("data ", res.data);
         dispatch(addProjectSuccess(res.data));
       })
       .catch((err) => {
-        dispatch(addProjectFailure(err.message));
+        dispatch(addProjectFailure(err.response.data));
       });
   };
 };

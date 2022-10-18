@@ -12,7 +12,6 @@ function Dashboard() {
     dispatch(getProjects());
   }, []);
 
-  //dispatch(getProjects());
   const projects = useSelector((state) => state.projects);
   console.log(projects);
   return (

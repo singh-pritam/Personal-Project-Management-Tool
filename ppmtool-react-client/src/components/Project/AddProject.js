@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { addProject } from "../../actions/addProject";
-import store from "../../store";
 
 function AddProject() {
   const [fields, setFields] = useState({
@@ -11,14 +12,27 @@ function AddProject() {
     endDate: "",
   });
 
+  const dispatch = useDispatch();
+  const toNavigate = useSelector((state) => state.toNavigate);
+  const errors = useSelector((state) => state.error);
+  const navigate = useNavigate();
   const updateFields = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(addProject(fields));
+  };
 
-    store.dispatch(addProject(fields));
+  useEffect(() => {
+    if (toNavigate) navigate(toNavigate);
+    console.log("called");
+  }, [toNavigate]);
+
+  const errorStyle = {
+    color: "red",
+    fontSize: "14px",
   };
 
   return (
@@ -40,7 +54,9 @@ function AddProject() {
                   value={fields.projectName}
                   onChange={updateFields}
                 />
-                {/* {emptyProjectName && <span>required</span>} */}
+                {errors && errors.projectName && (
+                  <p style={errorStyle}>*{errors.projectName}</p>
+                )}
               </div>
               <div className="form-group">
                 <input
@@ -51,6 +67,9 @@ function AddProject() {
                   value={fields.projectIdentifier}
                   onChange={updateFields}
                 />
+                {errors && errors.projectIdentifier && (
+                  <p style={errorStyle}>*{errors.projectIdentifier}</p>
+                )}
               </div>
 
               <div className="form-group">
@@ -61,6 +80,9 @@ function AddProject() {
                   value={fields.description}
                   onChange={updateFields}
                 />
+                {errors && errors.description && (
+                  <p style={errorStyle}>*{errors.description}</p>
+                )}
               </div>
               <h6>Start Date</h6>
               <div className="form-group">
